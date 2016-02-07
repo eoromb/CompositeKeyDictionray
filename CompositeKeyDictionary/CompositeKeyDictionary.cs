@@ -12,7 +12,6 @@ namespace CompositeKeyDictionary
         private readonly object _dictLock = new object();
         private readonly Dictionary<TKey2, Dictionary<TKey1, TValue>> _key2Dict = new Dictionary<TKey2, Dictionary<TKey1, TValue>>();
         private readonly Dictionary<TKey1, Dictionary<TKey2, TValue>> _key1Dict = new Dictionary<TKey1, Dictionary<TKey2, TValue>>();
-        //private readonly Dictionary<TValue, int> _valueCounters = new Dictionary<TValue, int>();
         public TValue this[TKey1 k1, TKey2 k2]
         {
             get { return _key1Dict[k1][k2]; }

@@ -55,6 +55,12 @@
     <Compile Include="CompositeKeyDictionaryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompositeKeyDictionary\CompositeKeyDictionary.csproj">
+      <Project>{5d0e471c-0b27-41ec-95b7-01b562ccd679}</Project>
+      <Name>CompositeKeyDictionary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

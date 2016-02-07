@@ -2,7 +2,8 @@
 
 namespace CompositeKeyDictionary.Test
 {
-    class House : IEquatable<House>
+    [Serializable]
+    public class House : IEquatable<House>
     {
         #region Fields and properties
         private string _color;
@@ -44,6 +45,7 @@ namespace CompositeKeyDictionary.Test
         {
             return _color.GetHashCode() ^ _floorsNumber.GetHashCode();
         }
+        public override string ToString() => $"Color = {_color}, FloorsNumber = {_floorsNumber}";
         #endregion
     }
 }

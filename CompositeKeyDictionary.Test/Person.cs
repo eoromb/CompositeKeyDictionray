@@ -2,7 +2,8 @@
 
 namespace CompositeKeyDictionary.Test
 {
-    struct Person : IEquatable<Person>
+    [Serializable]
+    public struct Person : IEquatable<Person>
     {
         #region Fields and properties
         private readonly int _age;
@@ -50,6 +51,7 @@ namespace CompositeKeyDictionary.Test
         {
             return _ssn.GetHashCode() ^ _age.GetHashCode() ^ _name.GetHashCode();
         }
+        public override string ToString() => $"Age = {_age}, Name = {_name}, SSN = {_ssn}";        
         #endregion
     }
 }

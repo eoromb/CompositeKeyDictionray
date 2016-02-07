@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CompositeKeyDictionary.Test\CompositeKeyDictionary.Test.csproj">
+      <Project>{14c5ae6c-ffcc-46b3-bc1d-eddb75a3c64a}</Project>
+      <Name>CompositeKeyDictionary.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompositeKeyDictionary\CompositeKeyDictionary.csproj">
       <Project>{5d0e471c-0b27-41ec-95b7-01b562ccd679}</Project>
       <Name>CompositeKeyDictionary</Name>

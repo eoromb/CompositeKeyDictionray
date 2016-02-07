@@ -225,7 +225,7 @@ namespace CompositeKeyDictionary
                 return false;
             }
         }
-        public IEnumerator<TValue> GetValuesByKey1(TKey1 key1)
+        public IEnumerable<TValue> GetValuesByKey1(TKey1 key1)
         {
             if (EqualityComparer<TKey1>.Default.Equals(key1, default(TKey1)))
             {
@@ -235,11 +235,14 @@ namespace CompositeKeyDictionary
             lock (_dictLock)
             {
                 Dictionary<TKey2, TValue> dict;
-                _key1Dict.TryGetValue(key1, out dict);
-                return new ConcurrentEnumeratorDecorator<TValue>(dict.Values.GetEnumerator(), _dictLock);
+                if (!_key1Dict.TryGetValue(key1, out dict))
+                {
+                    return Enumerable.Empty<TValue>();
+                }
+                return dict.Values.AsConcurrentEnumerable(_dictLock);
             }
         }
-        public IEnumerator<TValue> GetValuesByKey2(TKey2 key2)
+        public IEnumerable<TValue> GetValuesByKey2(TKey2 key2)
         {
             if (EqualityComparer<TKey2>.Default.Equals(key2, default(TKey2)))
             {
@@ -248,19 +251,21 @@ namespace CompositeKeyDictionary
             lock (_dictLock)
             {
                 Dictionary<TKey1, TValue> dict;
-                _key2Dict.TryGetValue(key2, out dict);
-                return new ConcurrentEnumeratorDecorator<TValue>(dict.Values.GetEnumerator(), _dictLock);
+                if (_key2Dict.TryGetValue(key2, out dict))
+                {
+                    return Enumerable.Empty<TValue>();
+                }
+
+                return dict.Values.AsConcurrentEnumerable(_dictLock);
             }
         }
-       
+
         #endregion
 
         #region IEnumerable
         public IEnumerator<Tuple<TKey1, TKey2, TValue>> GetEnumerator()
         {
-            return new ConcurrentEnumeratorDecorator<Tuple<TKey1, TKey2, TValue>>(
-                _key1Dict.SelectMany(p1 => p1.Value.Select(p2 => Tuple.Create(p1.Key, p2.Key, p2.Value))).GetEnumerator(),
-                _dictLock);
+            return _key1Dict.SelectMany(p1 => p1.Value.Select(p2 => Tuple.Create(p1.Key, p2.Key, p2.Value))).AsConcurrentEnumerable(_dictLock).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

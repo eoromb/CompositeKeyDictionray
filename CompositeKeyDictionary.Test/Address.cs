@@ -2,7 +2,8 @@
 
 namespace CompositeKeyDictionary.Test
 {
-    class Address : IEquatable<Address>
+    [Serializable]
+    public class Address : IEquatable<Address>
     {
         #region Fields and properties
         private string _country;
@@ -61,6 +62,8 @@ namespace CompositeKeyDictionary.Test
         {
             return _country.GetHashCode() ^ _city.GetHashCode() ^ _street.GetHashCode() ^ _houseNumber.GetHashCode();
         }
+        public override string ToString() => $"Country = {_country}, City = {_city}, Street = {_street}, HouseNumber = {_houseNumber}";
+
         #endregion
     }
 }

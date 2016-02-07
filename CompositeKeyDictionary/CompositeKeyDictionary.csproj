@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeKeyDictionary.cs" />
+    <Compile Include="ConcurrentEnumerable.cs" />
+    <Compile Include="ConcurrentEnumerableExtensions.cs" />
     <Compile Include="ConcurrentEnumeratorDecorator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

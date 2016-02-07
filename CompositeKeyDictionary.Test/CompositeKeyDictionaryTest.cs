@@ -20,26 +20,14 @@ namespace CompositeKeyDictionary.Test
         private readonly Address _secondAddr = new Address("Russia", "Novosibirsk", "Street2", 22);
         private CompositeKeyDictionary<Person, Address, House>  _dict = new CompositeKeyDictionary<Person, Address, House>();
         #endregion
+
+        #region Constructor
         public CompositeKeyDictionaryTest()
         {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
+        } 
+        #endregion
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
+        #region Test initializers
         [TestInitialize()]
         public void MyTestInitialize()
         {
@@ -58,6 +46,7 @@ namespace CompositeKeyDictionary.Test
         public void Indexer_AddValue()
         {
             _dict[_john, _firstAddr] = _redHouse;
+
             Assert.AreEqual(_dict[_john, _firstAddr], _redHouse);
         }
 
@@ -69,11 +58,89 @@ namespace CompositeKeyDictionary.Test
         }
 
         [TestMethod]
-        public void Indexer_ModifiedExistingKeys()
+        public void Indexer_ModifyExistingKeys()
         {
             _dict[_john, _firstAddr] = _redHouse;
             _dict[_john, _firstAddr] = _blueHouse;
+
             Assert.AreEqual(_dict[_john, _firstAddr], _blueHouse);
+        }
+
+        [TestMethod]
+        public void Count_TwoElementsAdded()
+        {
+            _dict[_john, _firstAddr] = _redHouse;
+            _dict[_bill, _secondAddr] = _blueHouse;
+
+            Assert.IsTrue(_dict.Count == 2);
+        }
+
+        [TestMethod]
+        public void Add_AddValue()
+        {
+            _dict.Add(_john, _firstAddr, _redHouse);
+
+            Assert.AreEqual(_dict[_john, _firstAddr], _redHouse);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Add_AddExistingKey_ArgumentException()
+        {
+            _dict.Add(_john, _firstAddr, _redHouse);
+            _dict.Add(_john, _firstAddr, _blueHouse);
+        }
+
+        [TestMethod]
+        public void TryGetValue_GetNotExisingElement()
+        {
+            House house;
+            var res = _dict.TryGetValue(_john, _firstAddr, out house);
+
+            Assert.IsFalse(res);
+        }
+
+        [TestMethod]
+        public void TryGetValue_GetExistingItem()
+        {
+            _dict.Add(_john, _firstAddr, _redHouse);
+            House house;
+            var res = _dict.TryGetValue(_john, _firstAddr, out house);
+
+            Assert.IsTrue(res);
+            Assert.AreEqual(_redHouse, house);
+        }
+
+        [TestMethod]
+        public void Remove_RemoveExistingElement()
+        {
+            _dict.Add(_john, _firstAddr, _redHouse);
+            _dict.Remove(_john, _firstAddr);
+
+            Assert.IsTrue(_dict.Count == 0);
+        }
+
+        [TestMethod]
+        public void Clear_RemoveAllElements()
+        {
+            _dict.Add(_john, _firstAddr, _redHouse);
+            _dict.Add(_john, _secondAddr, _redHouse);
+            _dict.Clear();
+
+            Assert.IsTrue(_dict.Count == 0);
+        }
+
+        [TestMethod]
+        public void ContainsKey_EmptyDictionary_False()
+        {
+            Assert.IsFalse(_dict.ContainsKey(_john, _firstAddr));
+        }
+        [TestMethod]
+        public void ContainsKey_True()
+        {
+            _dict.Add(_john, _firstAddr, _redHouse);
+
+            Assert.IsTrue(_dict.ContainsKey(_john, _firstAddr));
         }
     }
 }

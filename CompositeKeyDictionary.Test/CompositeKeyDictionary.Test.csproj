@@ -53,7 +53,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CompositeKeyDictionaryTest.cs" />
+    <Compile Include="House.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Address.cs" />
+    <Compile Include="Person.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CompositeKeyDictionary\CompositeKeyDictionary.csproj">

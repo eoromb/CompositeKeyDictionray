@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompositeKeyDictionary
 {
-    public class CompositeKeyDictionary<TKey1, TKey2, TValue>
+    [Serializable]
+    public class CompositeKeyDictionary<TKey1, TKey2, TValue> : IEnumerable<Tuple<TKey1, TKey2, TValue>>
     {
         #region Fields and properties
         private readonly object _dictLock = new object();
@@ -125,7 +125,7 @@ namespace CompositeKeyDictionary
             {
                 Dictionary<TKey2, TValue> dict;
                 _key1Dict.TryGetValue(k1, out dict);
-                return dict.Values.AsEnumerable();
+                return dict.Values;
             }
         }
         public IEnumerable<TValue> GetValuesByKey2(TKey2 k2)
@@ -134,21 +134,24 @@ namespace CompositeKeyDictionary
             {
                 Dictionary<TKey1, TValue> dict;
                 _key2Dict.TryGetValue(k2, out dict);
-                return dict.Values.AsEnumerable();
+                return dict.Values;
             }
         }
         #endregion
 
-        //#region IEnumerable
-        //public IEnumerator<KeyValuePair<Tuple<TKey1, TKey2>, TValue>> GetEnumerator()
-        //{
-        //    return _dict.GetEnumerator();
-        //}
+        #region IEnumerable
+        public IEnumerator<Tuple<TKey1, TKey2, TValue>> GetEnumerator()
+        {
+            return new ConcurrentEnumeratorDecorator<Tuple<TKey1, TKey2, TValue>>(
+                _key1Dict.SelectMany(p1 => p1.Value.Select(p2 => Tuple.Create(p1.Key, p2.Key, p2.Value))).GetEnumerator(),
+                _dictLock);
+        }
 
-        //IEnumerator IEnumerable.GetEnumerator()
-        //{
-        //    return GetEnumerator();
-        //}
-        //#endregion
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        #endregion
+        
     }
 }

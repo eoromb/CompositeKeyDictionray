@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace CompositeKeyDictionary
 {
+    /// <summary>
+    /// Реализует потокобезопасный декоратор надо Enumerator. При создании локает объект переданный в конструкторе. В методе Dispose освобождает его.
+    /// ВАЖНО, вызывать Dispose при использовании этого класса
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     class ConcurrentEnumeratorDecorator<T> : IEnumerator<T>
     {
         #region Fields and properties

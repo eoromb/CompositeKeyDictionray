@@ -7,7 +7,7 @@ namespace CompositeKeyDictionary.TestConsole
     {
         static void Main(string[] args)
         {
-            // Пример использования
+            // Пример использования. 
             var dict = new CompositeKeyDictionary<Person, Address, House>();
             var ind = 1;
             var addressToSelect = new Address($"Country_{ind}", $"City{ind}", $"Street_{ind}", ind);

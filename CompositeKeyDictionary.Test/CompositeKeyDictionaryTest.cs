@@ -51,6 +51,18 @@ namespace CompositeKeyDictionary.Test
         #endregion
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Indexer_KeyNullValue_ArgumentNullException()
+        {
+            _dict[_john, null] = _redHouse;
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Indexer_KeyDefaultValue_ArgumentNullException()
+        {
+            _dict[default(Person), _firstAddr] = _redHouse;
+        }
+        [TestMethod]
         public void Indexer_AddValue()
         {
             _dict[_john, _firstAddr] = _redHouse;
@@ -83,6 +95,18 @@ namespace CompositeKeyDictionary.Test
             Assert.IsTrue(_dict.Count == 2);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Add_KeyNullValue_ArgumentNullException()
+        {
+            _dict.Add(_john, null, _redHouse);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Add_KeyDefaultValue_ArgumentNullException()
+        {
+            _dict.Add(default(Person), null, _redHouse);
+        }
         [TestMethod]
         public void Add_AddValue()
         {

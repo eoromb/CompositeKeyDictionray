@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CompositeKeyDictionary
 {
+    /// <summary>
+    /// Реализует потокобезопасный декоратор надо Enumerable. 
+    /// </summary>
     class ConcurrentEnumerable<T> : IEnumerable<T>
     {
         #region Fields and properties

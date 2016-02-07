@@ -10,10 +10,9 @@ namespace CompositeKeyDictionray
     {
         static void Main(string[] args)
         {
-            CompositeKeyDictionary<int, int, string> dict = new CompositeKeyDictionary<int, int, string>();
-            dict.Add(5, 5, "Hello");
-            string res;
-            dict.TryGetValue(5, 5, out res);
+            CompositeKeyDictionaryExt<int, int, string> dict = new CompositeKeyDictionaryExt<int, int, string>();
+            dict[5, 5] = "Hello";
+            
             Console.WriteLine(res);
             Console.ReadKey();
         }
